@@ -70,7 +70,7 @@ module.exports = function(url, date, exclude, callback) {
           query.d = snapshot._id;
 
 
-          oplogsCollection.remove(query, function (err, res) {
+          oplogsCollection.deleteMany(query, function (err, res) {
             counter += res.result.n;
             cb()
           });
