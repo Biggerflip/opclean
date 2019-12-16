@@ -16,7 +16,7 @@ module.exports = function(url, date, exclude, callback) {
       var cols = [];
       collections.forEach(function (col) {
         var name = name = col.collectionName;
-        var isOps = name.indexOf('o_') === 0;
+        var isOps = name.indexOf('_ops') !== -1;
         if (isOps && exclude.indexOf(name) === -1) {
           cols.push(name);
         }
@@ -37,7 +37,7 @@ module.exports = function(url, date, exclude, callback) {
   });
 
   function cleanCollection(db, oplogsCollectionName, done){
-    var snapshotsCollectionName = oplogsCollectionName.split('o_')[1];
+    var snapshotsCollectionName = oplogsCollectionName.split('_ops')[0];
 
     if (!snapshotsCollectionName) {
       throw new Error('Cant get collection name from ops-collection: ' + oplogsCollectionName);
@@ -67,7 +67,7 @@ module.exports = function(url, date, exclude, callback) {
             'm.ts': {$lt: date}
           };
 
-          query.d = snapshot._id;
+          query.name = snapshot._id;
 
 
           oplogsCollection.remove(query, function (err, res) {
