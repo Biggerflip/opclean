@@ -7,7 +7,7 @@ module.exports = function(url, date, exclude, callback) {
   var parsedUrl = parse(url)
   var dbName = parsedUrl.pathname.slice(1)
 
-  mongo.MongoClient.connect(url, function (err, client) {
+  mongo.MongoClient.connect(url, { useUnifiedTopology: true }, function (err, client) {
     if (err) throw err;
     var db = client.db(dbName);
 
